@@ -1,0 +1,32 @@
+<!-- <mat-toolbar>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+    </button>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+    </button>
+</mat-toolbar>
+   -->
+
+<!-- <md-filled-button>Пример бутон</md-filled-button>
+<md-filled-text-field label="Name"></md-filled-text-field> -->
+
+<mat-toolbar>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button matButton>Basic</button>
+    <!-- <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (change)="toggleTheme($event)" >
+        Тъмна тема
+    </button> -->
+    <button matButton     routerLinkActive="active" [routerLink]="AUTH_URLS.logIn">Login</button>
+    <label>
+        <input type="checkbox" (change)="toggleTheme($event)" />
+        Тъмна тема
+        </label> 
+</mat-toolbar>
+  

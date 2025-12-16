@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+/* Светла тема - по подразбиране */
+.light-theme {
+    --md-sys-color-primary: #6200ee;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #000000;
+    --md-sys-color-background: #ffffff;
+    --md-sys-color-on-background: #000000;
+}
+
+/* Тъмна тема */
+.dark-theme {
+    --md-sys-color-primary: #bb86fc;
+    --md-sys-color-on-primary: #000000;
+    --md-sys-color-surface: #121212;
+    --md-sys-color-on-surface: #ffffff;
+    --md-sys-color-background: #121212;
+    --md-sys-color-on-background: #ffffff;
+}
+
+/* Приложи цветовете към всички Material Web компоненти */
+body,
+md-filled-button,
+md-filled-text-field,
+md-elevated-card {
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
