@@ -1,1 +1,6 @@
-<p>user-details works!</p>
+<div>
+    <button matButton [routerLink]="['/users', user().id, 'tasks']" routerLinkActive="selected">
+        <img [src]="imagePath()" [alt]="user().name" />
+        <span>{{ user().name }}</span>
+    </button>
+</div>

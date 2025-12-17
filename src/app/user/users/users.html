@@ -1,1 +1,8 @@
-<p>users works!</p>
+@for (user of users; track user.id){
+    <div class="card-content">
+    <mat-card>
+        <app-user-details  [user]="user"/>
+    </mat-card>
+    </div>
+}
+

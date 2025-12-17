@@ -1,0 +1,6 @@
+<mat-card>
+    <h2>{{ task().title}}</h2>
+    <time>{{ task().dueDate | date : "fullDate" }}</time>
+    <p>{{ task().summary }}</p>
+    <button matButton="outlined" (click)="onComplete()">Complete</button>
+</mat-card>
