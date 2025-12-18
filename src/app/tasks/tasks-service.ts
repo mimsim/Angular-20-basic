@@ -1,6 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { NewTaskData } from './task.model';
 import { filter } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../user/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +33,11 @@ export class TasksService {
       dueDate: '2024-06-15',
     },
   ]);
+  private http = inject(HttpClient);
 
+  users = signal<User[]>([]);
+
+  
   allTasks = this.tasks.asReadonly();
   addTask(taskData: NewTaskData, userId: string) {
 
@@ -44,5 +50,11 @@ export class TasksService {
     this.tasks.update((prevTasks) => 
       prevTasks.filter((task)=> task.id != id)
     )
+  }
+  getAllTasks() {
+    this.http.get<User[]>('https://jsonplaceholder.typicode.com/todos').subscribe(users => {
+      console.log(users, '+++++++')
+      this.users.set(users);
+    });
   }
 }

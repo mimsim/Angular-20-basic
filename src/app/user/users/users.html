@@ -1,8 +1,12 @@
-@for (user of users; track user.id){
-    <div class="card-content">
-    <mat-card>
-        <app-user-details  [user]="user"/>
-    </mat-card>
-    </div>
+@if (loading()) {
+<p>Loading users...</p>
+} @else if (error()) {
+<p>{{ error() }}</p>
+} @else {
+@for (user of users(); track user.id) {
+<mat-card [routerLink]="['/users', user.id]" (click)="onSelect(user)">
+    <h3>{{ user.name }}</h3>
+    <p>{{ user.phone }}</p>
+</mat-card>
 }
-
+}
