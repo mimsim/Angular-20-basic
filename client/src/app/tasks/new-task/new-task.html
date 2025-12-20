@@ -1,0 +1,14 @@
+<div class="form-content">
+    <form [formGroup]="addTask" (ngSubmit)="submitTask()">
+        <mat-form-field>
+            <mat-label>Input</mat-label>
+            <input matInput formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Textarea</mat-label>
+            <textarea matInput formControlName="body"></textarea>
+        </mat-form-field>
+        <button matButton="outlined" type="submit">Send</button>
+    </form>
+</div>

@@ -1,9 +1,0 @@
-@if (user()) {
-<button mat-button (click)="back()">⬅ Back</button>
-
-<h2>{{ user()!.name }}</h2>
-<p>Email: {{ user()!.email }}</p>
-<p>Phone: {{ user()!.phone }}</p>
-} @else {
-<p>Loading user details...</p>
-}

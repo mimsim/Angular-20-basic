@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { NewTaskData } from './task.model';
-import { filter } from 'rxjs';
+import { NewTaskData, Task } from './task.model';
+import { filter, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../user/user.model';
 
@@ -47,14 +47,30 @@ export class TasksService {
 
   }
   removeTask(id: string) { 
-    this.tasks.update((prevTasks) => 
+    this.tasks.update((prevTasks) =>
       prevTasks.filter((task)=> task.id != id)
     )
+  }
+  deleteTask(userId: any, taskId: any) {
+    return this.http.delete(
+      `https://jsonplaceholder.typicode.com/users/${userId}/tasks/${taskId}`
+    );
   }
   getAllTasks() {
     this.http.get<User[]>('https://jsonplaceholder.typicode.com/todos').subscribe(users => {
       console.log(users, '+++++++')
       this.users.set(users);
     });
+  }
+  getTasksByUser(userId: any): Observable<Task[]> {
+    console.log('userId', userId)
+    return this.http.get<Task[]>(
+      `https://jsonplaceholder.typicode.com/users/${userId}/todos`
+    );
+  }
+  sendTaskByUser(payload: NewTaskData) {
+    return this.http.post<Task[]>(
+      `https://jsonplaceholder.typicode.com/todos`, payload
+    );
   }
 }
