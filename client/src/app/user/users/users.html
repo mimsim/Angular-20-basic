@@ -6,7 +6,6 @@
 @for (user of users(); track user.id) {
 <mat-card [routerLink]="['/users', user.id]" (click)="onSelect(user)" class="custom-card">
     <h3>{{ user.name }}</h3>
-    <p>{{ user.phone }}</p>
 </mat-card>
 }
 }
