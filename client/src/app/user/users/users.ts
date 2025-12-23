@@ -24,7 +24,8 @@ export class Users {
   error = this.usersService.error;
 
   constructor() {
-    this.usersService.loadUsers();
+    // this.usersService.loadUsers();
+    this.usersService.getUsers()
     console.log('app-users', this.users)
   }
   onSelect(user: User) {
