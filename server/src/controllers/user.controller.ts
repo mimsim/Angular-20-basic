@@ -5,27 +5,34 @@ import { Task } from '../models/task.model';
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 
-
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const email = req.body.email?.trim();
-        const password = req.body.password?.trim();
+        const { email, password } = req.body;
 
-        console.log('EMAIL:', email);
-        console.log('PASSWORD FROM REQUEST:', password);
+        if (!email || !password)
+            return res.status(400).json({ message: 'Email and password required' });
 
+        // Вземаме user с password (select: false)
         const user = await User.findOne({ email }).select('+password');
-        console.log('USER FOUND:', user);
-
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const match = await bcrypt.compare(password, user.password!);
-        console.log('bcrypt.compare result:', match);
-
         if (!match) return res.status(400).json({ message: 'Wrong password' });
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
-        res.status(200).json({ token });
+        // Създаваме token с повече информация
+        const payload = {
+            id: user.id,      // вече идва от toJSON transform
+            email: user.email,
+            name: user.name,
+            role: user.role
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', {
+            expiresIn: '7d',
+        });
+
+        // Можеш също да върнеш token + user info отделно, ако искаш
+        res.status(200).json({ token, user: payload });
     } catch (err: any) {
         console.error(err);
         res.status(500).json({ error: err.message });

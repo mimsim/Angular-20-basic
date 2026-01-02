@@ -14,6 +14,8 @@ export interface NewTaskData {
     // date: string;
     title: string | null;
     body: string | null;
+    userId: string | null;
+
     // start?: Date | null;
     // end?: Date | null;
 

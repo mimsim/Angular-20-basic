@@ -28,12 +28,16 @@ import { NewTask } from '../../tasks/new-task/new-task';
     private tasksService = inject(TasksService);
     readonly dialog = inject(MatDialog);
 
+  tasks = signal<Task[]>([]);
+  currendUserId: any;
   selectedUser = this.usersService.selectedUser;
 
   userId = toSignal(
     this.route.paramMap.pipe(
       map(params => {
         const id = params.get('id');
+        console.log('id', id);
+        this.currendUserId = id;
         return id ? Number(id) : undefined;
       })
     )
@@ -49,27 +53,25 @@ import { NewTask } from '../../tasks/new-task/new-task';
     return this.usersService.users().find(u => +u.id === this.userId());
   });
 
-  tasks = signal<Task[]>([]);
-  currendUserId: any;
-  constructor() {
-    effect(() => {
-      const id = this.userId();
-      if (!id) {
-        this.tasks.set([]);
-        return;
-      }
+  // constructor() {
+  //   effect(() => {
+  //     const id = this.userId();      
+  //     if (!id) {
+  //       this.tasks.set([]);
+  //       return;
+  //     }
 
-      this.tasksService.getTasksByUser(id).subscribe(tasksArray => {
-        this.tasks.set(tasksArray); // задължително масив
-        console.log('id', id);
-        this.currendUserId = id
-      });
-    });
+  //     this.tasksService.getTasksByUser(id).subscribe(tasksArray => {
+  //       this.tasks.set(tasksArray);
+  //       // this.currendUserId = id
+  //       // console.log('this.currendUserId', this.currendUserId);
+  //     });
+  //   });
 
-    if (this.usersService.users().length === 0) {
-      this.usersService.loadUsers();
-    }
-  }
+  //   if (this.usersService.users().length === 0) {
+  //     this.usersService.loadUsers();
+  //   }
+  // }
   back() {
     this.usersService.clearSelection(); this.router.navigate(['/']);
   }

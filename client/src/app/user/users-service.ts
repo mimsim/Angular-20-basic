@@ -47,20 +47,20 @@ export class UsersService {
 
   //node js
 
-  register(user: any) {
-    console.log('user', user)
+  register(user: any) {   
     return this.http.post<User>(`${this.url}register`, user);
   }
   login(user: any) {
-    return this.http.post(`${this.url}login`, user);
+    return this.http.post(`${this.url}login`, user)
     // return  this.http.post<{ token: string }>('http://localhost:3000/api/login', user)
-    //   .subscribe({
-    //     next: (res) => {
-    //       localStorage.setItem('token', res.token);
-    //       // this.router.navigate(['/']);
-    //     },
-    //     error: (err) => console.error('Login error:', err)
-    //   });
+      // .subscribe({
+      //   next: (res) => {
+      //     console.log('res', res)
+      //     // localStorage.setItem('token', res.token);
+      //     // this.router.navigate(['/']);
+      //   },
+      //   error: (err) => console.error('Login error:', err)
+      // });
   }
   // login(user: any) {
   //   console.log('user', user)

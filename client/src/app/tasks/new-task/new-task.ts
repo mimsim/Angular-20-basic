@@ -18,17 +18,16 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class NewTask {
   private formBuilder = inject(FormBuilder);
   private taskService = inject(TasksService)
-  readonly data = inject<NewTask>(MAT_DIALOG_DATA);
+  data = inject<NewTask>(MAT_DIALOG_DATA);
 
   userId: any;
   addTask = this.formBuilder.group({
     title: new FormControl(''),
     body: new FormControl('')
   })
-  // readonly range = new FormGroup({
-  //   start: new FormControl<Date | null>(null),
-  //   end: new FormControl<Date | null>(null),
-  // });
+  constructor() {
+    console.log(this.data)
+}
   submitTask() {
     this.userId = this.data.userId;
     console.log(this.data)
@@ -48,4 +47,5 @@ export class NewTask {
       }
     });
   }
+  
 }
