@@ -47,13 +47,27 @@ export class UsersService {
 
   //node js
 
-  register(user: User): Observable<User> {
-    return this.http.post<User>(this.url + 'user', user);
+  register(user: any) {
+    console.log('user', user)
+    return this.http.post<User>(`${this.url}register`, user);
   }
-
-  login(credentials: { email: string; password: string }): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(this.url + 'login', credentials);
+  login(user: any) {
+    return this.http.post(`${this.url}login`, user);
+    // return  this.http.post<{ token: string }>('http://localhost:3000/api/login', user)
+    //   .subscribe({
+    //     next: (res) => {
+    //       localStorage.setItem('token', res.token);
+    //       // this.router.navigate(['/']);
+    //     },
+    //     error: (err) => console.error('Login error:', err)
+    //   });
   }
+  // login(user: any) {
+  //   console.log('user', user)
+  //   return this.http.post(`${this.url}login`, user, {
+  //     headers: { 'Content-Type': 'application/json' }
+  //   });
+  // }
 
   getUsers() {
     return this.http.get<User[]>(this.url + 'users').subscribe({

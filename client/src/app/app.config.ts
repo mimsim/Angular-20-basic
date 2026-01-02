@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -18,5 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     { provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig },
+    provideAnimations(),
+    provideToastr(),
   ]
 };

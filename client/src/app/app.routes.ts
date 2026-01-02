@@ -4,6 +4,8 @@ import { NoTask } from './tasks/no-task/no-task';
 import { UserTasks } from './user/user-tasks/user-tasks';
 import { NotFound } from './not-found/not-found';
 import { UserDetails } from './user/user-details/user-details';
+import { Login } from './login/login/login';
+import { Register } from './login/register/register';
 
 export const routes: Routes = [
     {
@@ -17,8 +19,7 @@ export const routes: Routes = [
     {
         path: 'users', 
         component: Users,      
-    },
-    
+    },    
     {
         path: 'users/:id',
         component: UserDetails
@@ -38,6 +39,12 @@ export const routes: Routes = [
         // },
         // title: resolveTitle,
     },
+    { path: 'login', component: Login },
+    { path: 'register', component: Register },
+
+    // { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
+    // { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
+    { path: 'notfound', component: NotFound },
     {
         path: '**',
         component: NotFound,

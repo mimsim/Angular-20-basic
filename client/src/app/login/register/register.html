@@ -1,24 +1,24 @@
 <div class="form-content">
     <form [formGroup]="registerForm" (ngSubmit)="register()">
         <mat-form-field>
-            <mat-label>Input</mat-label>
+            <mat-label>name</mat-label>
             <input matInput formControlName="name">
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Input</mat-label>
+            <mat-label>email</mat-label>
             <input matInput formControlName="email">
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Input</mat-label>
-            <input matInput formControlName="password">
+            <mat-label>password</mat-label>
+            <input matInput formControlName="password" type="password">
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Select me</mat-label>
+        <!-- <mat-form-field>
+            <mat-label>role</mat-label>
             <mat-select formControlName="role">
                 <mat-option value="user">user</mat-option>
                 <mat-option value="admin">admin</mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <button matButton="outlined" type="submit">Send</button>
     </form>

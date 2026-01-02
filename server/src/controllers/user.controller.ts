@@ -2,43 +2,33 @@ import { Request, Response } from 'express';
 import { User } from '../models/user.model';
 import mongoose from 'mongoose';
 import { Task } from '../models/task.model';
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 
-export const registerUser = async (req: Request, res: Response) => {
-    try {
-        const { email, name, password } = req.body;
-        const hashed = await bcrypt.hash(password, 10);
-        const user = await User.create({ email, name, password: hashed });
-        res.status(201).json(user);
-    } catch (err: any) {
-        res.status(500).json({ error: err.message });
-    }
-};
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const email = req.body.email?.trim();
+        const password = req.body.password?.trim();
 
-        // ТУК Е ПРОМЯНАТА ↓↓↓
-        const user = await User.findOne({ email }).select("+password");
+        console.log('EMAIL:', email);
+        console.log('PASSWORD FROM REQUEST:', password);
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+        const user = await User.findOne({ email }).select('+password');
+        console.log('USER FOUND:', user);
 
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-            return res.status(400).json({ message: "Wrong password" });
-        }
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
-            expiresIn: "7d",
-        });
+        const match = await bcrypt.compare(password, user.password!);
+        console.log('bcrypt.compare result:', match);
 
-        return res.status(200).json({ token });
+        if (!match) return res.status(400).json({ message: 'Wrong password' });
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+        res.status(200).json({ token });
     } catch (err: any) {
-        return res.status(500).json({ error: err.message });
+        console.error(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
@@ -49,9 +39,25 @@ export const getUsers = async (_: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
+    try {
+        const { email, password, name } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const user = new User({ email, password, name });
+        await user.save();
+
+        const { password: _, ...userData } = user.toObject();
+
+        res.status(201).json(userData);
+    } catch (err: any) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 };
+
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

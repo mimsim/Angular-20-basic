@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, deleteUser, getUserById, getUsers, loginUser, registerUser, updateUser } from './controllers/user.controller';
+import { createUser, deleteUser, getUserById, getUsers, loginUser, updateUser } from './controllers/user.controller';
 import { changePassword } from './controllers/changePassword.controller';
 import { getTasksByUser, createTask, getTaskById, deleteTaskById, updateTaskById } from './controllers/tasks.controller';
 import { auth } from './middleware/auth';
@@ -7,11 +7,11 @@ import { roleMiddleware } from './middleware/roles';
 
 
 const router = Router();
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/register", createUser);
+router.post('/login', loginUser);
 
 router.get('/users', getUsers);
-router.post('/user', createUser);
+// router.post('/user', createUser);
 router.get('/user/:id', getUserById)
 router.delete('/user/:id', deleteUser);
 router.put('/user/:id', updateUser);

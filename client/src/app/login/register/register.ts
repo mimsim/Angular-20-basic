@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Toast } from '../../shared/toast/toast/toast';
+// import { Toast } from '../../shared/toast/toast/toast';
 import { UsersService } from '../../user/users-service';
 import { CommonModule } from '@angular/common';
 import { MATERIAL_IMPORTS } from '../../shared/material';
@@ -17,8 +17,8 @@ import { MATERIAL_IMPORTS } from '../../shared/material';
 })
 export class Register {
   private formBuilder = inject(UntypedFormBuilder);
-  private router = inject(Router);
-  toast = inject(Toast);
+  // private router = inject(Router);
+  // toast = inject(Toast);
   private userService = inject(UsersService);
 
 
@@ -48,10 +48,13 @@ export class Register {
       name: this.name,
       email: this.email,
       password: this.password,
-      role: this.role
+      // role: this.role
     });
   }
   register() {
-    console.log('')
+    console.log('this.registerForm.value', this.registerForm.value)
+    this.userService.register(this.registerForm.value).subscribe((res) => {
+      console.log(res)
+    })
   }
 }
