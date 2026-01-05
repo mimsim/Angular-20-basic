@@ -21,25 +21,19 @@ import { NewTask } from '../../tasks/new-task/new-task';
     templateUrl: './user-details.html',
     styleUrl: './user-details.scss',
   })
-  export class UserDetails {
-    private usersService = inject(UsersService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private tasksService = inject(TasksService);
-    readonly dialog = inject(MatDialog);
+export class UserDetails {
+  private usersService = inject(UsersService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private tasksService = inject(TasksService);
+  readonly dialog = inject(MatDialog);
 
   tasks = signal<Task[]>([]);
-  currendUserId: any;
   selectedUser = this.usersService.selectedUser;
 
   userId = toSignal(
     this.route.paramMap.pipe(
-      map(params => {
-        const id = params.get('id');
-        console.log('id', id);
-        this.currendUserId = id;
-        return id ? Number(id) : undefined;
-      })
+      map(params => params.get('id') ?? undefined)
     )
   );
 
@@ -49,46 +43,50 @@ import { NewTask } from '../../tasks/new-task/new-task';
 
     const id = this.userId();
     if (!id) return undefined;
-
-    return this.usersService.users().find(u => +u.id === this.userId());
+    return this.usersService.users().find(u => u.id === id);
   });
 
-  // constructor() {
-  //   effect(() => {
-  //     const id = this.userId();      
-  //     if (!id) {
-  //       this.tasks.set([]);
-  //       return;
-  //     }
+  constructor() {
+    effect(() => {
+      const id = this.userId();
+      if (id) this.loadTasks(id);
+    });
+  }
 
-  //     this.tasksService.getTasksByUser(id).subscribe(tasksArray => {
-  //       this.tasks.set(tasksArray);
-  //       // this.currendUserId = id
-  //       // console.log('this.currendUserId', this.currendUserId);
-  //     });
-  //   });
-
-  //   if (this.usersService.users().length === 0) {
-  //     this.usersService.loadUsers();
-  //   }
-  // }
   back() {
-    this.usersService.clearSelection(); this.router.navigate(['/']);
+    this.usersService.clearSelection();
+    this.router.navigate(['/']);
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(NewTask, {    
-      data: {
-        userId: this.currendUserId
-      }
+    const dialogRef = this.dialog.open(NewTask, {
+      data: { userId: this.userId() }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe(() => {
+      const id = this.userId();
+      if (id) this.loadTasks(id);
     });
   }
+
   deleteTask(taskId: any) {
-    this.tasksService.deleteTask(this.currendUserId, taskId).subscribe();
+    const id = this.userId();
+    if (!id) return;
+
+    this.tasksService.deleteTask(id, taskId).subscribe(() => {
+      this.loadTasks(id);
+    });
+  }
+
+  loadTasks(userId: string) {
+    this.tasksService.getAllTasks().subscribe({
+      next: tasks => {
+        const userTasks = tasks.filter(t => t.userId === userId);
+        this.tasks.set(userTasks);
+      },
+      error: err => console.error(err)
+    });
   }
 }
+
 

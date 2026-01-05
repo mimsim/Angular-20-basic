@@ -17,8 +17,7 @@ import { UsersService } from '../../user/users-service';
   styleUrl: './login.scss',
 })
 export class Login {
-  // private auth = inject(Auth);
-    private userService = inject(UsersService);
+  private userService = inject(UsersService);
   private formBuilder = inject(UntypedFormBuilder);
   private router = inject(Router);
   decodedUser: any;
@@ -35,6 +34,7 @@ export class Login {
     Validators.minLength(6)
   ]);
   loggedIn: boolean = false;
+  userInfo: any;
   constructor() {
     this.loginForm = this.formBuilder.group({
       email: this.email,
@@ -44,16 +44,10 @@ export class Login {
     const token = localStorage.getItem('token');
     if (token) {
       this.decodedUser = token;
-      this.setCurrentUser(this.decodedUser);
+      this.userInfo = localStorage.getItem('user');
     }
   }
 
-
-  // ngOnInit() {
-  //   if (this.auth.loggedIn) {
-  //     this.router.navigate(['/']);
-  //   }
-  // }
   login() {
     console.log('Sending login:', this.loginForm.value);
     this.userService.login(this.loginForm.value).subscribe({
@@ -62,18 +56,10 @@ export class Login {
         console.log('user:', res.user);
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
-        this.setCurrentUser(this.decodedUser);
         this.router.navigate(['/']);
       },
       error: (err: any) => console.error('Login error:', err),
     });
   }
-  setCurrentUser(decodedUser: any): void {
-    this.loggedIn = true;
-    // this.currentUser.id = decodedUser._id;
-    // this.currentUser.username = decodedUser.username;
-    // this.currentUser.role = decodedUser.role;
-    this.isAdmin = decodedUser.role === 'admin';
-    // delete decodedUser.role;
-  }
+
 }

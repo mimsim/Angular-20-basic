@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MATERIAL_IMPORTS } from '../../shared/material';
 import { UsersService } from '../users-service';
 import { Router, RouterModule } from '@angular/router';
@@ -12,17 +12,17 @@ import { User } from '../user.model';
   imports: [
     CommonModule,
     ...MATERIAL_IMPORTS,    
-  RouterModule],
+    RouterModule],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })
 export class Users {
   usersService = inject(UsersService);
   router = inject(Router)
+
   users = this.usersService.users;
   loading = this.usersService.loading;
   error = this.usersService.error;
-
   constructor() {
     // this.usersService.loadUsers();
     this.usersService.getUsers()
@@ -33,4 +33,5 @@ export class Users {
     console.log('app-users', user)
     this.router.navigate(['/users', user.id]); // ✅ navigate
   }
+ 
 }

@@ -25,27 +25,34 @@ export class NewTask {
     title: new FormControl(''),
     body: new FormControl('')
   })
+  decodedUser: any;
+
   constructor() {
     console.log(this.data)
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.decodedUser = token;      
+    }
 }
+
   submitTask() {
-    this.userId = this.data.userId;
-    console.log(this.data)
     const payload = {
       ...this.addTask.getRawValue(),
-      userId: this.userId
+      userId: this.data.userId
     };
-    console.log(payload)
+
+    console.log('Payload for backend:', payload);  // виж какво се логва
+
     this.taskService.sendTaskByUser(payload).subscribe({
       next: (res) => {
-        console.log('Успешно създадена задача', res);
+        console.log('Task successfully created', res);
         this.addTask.reset();
-        // this.range.reset();
       },
       error: (err) => {
-        console.error('Грешка при създаване на задача', err);
+        console.error('Error creating task', err);
       }
     });
   }
-  
+
+
 }

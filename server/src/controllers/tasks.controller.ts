@@ -12,15 +12,34 @@ export const getTasksByUser = async (req: Request, res: Response) => {
     }
 };
 
+// export const createTask = async (req: Request, res: Response) => {
+//     try {
+//         const userId = (req as any).userId;
+//         const { title, description } = req.body;
+
+//         const task = await Task.create({
+//             title,
+//             description,
+//             userId,
+//         });
+
+//         res.status(201).json(task);
+//     } catch (err: any) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 export const createTask = async (req: Request, res: Response) => {
     try {
-        const userId = (req as any).userId;
-        const { title, description } = req.body;
+        const { title, description, userId } = req.body; // userId идва от body
+
+        if (!userId) {
+            return res.status(400).json({ message: "userId is required" });
+        }
 
         const task = await Task.create({
             title,
             description,
-            userId,
+            userId, // използваме userId за когото е task
         });
 
         res.status(201).json(task);
@@ -29,6 +48,28 @@ export const createTask = async (req: Request, res: Response) => {
     }
 };
 
+
+// export const createTask = async (req: Request, res: Response) => {
+//     try {
+//         const userId = (req as any).userId; // идва от auth middleware
+//         const { title, description } = req.body;
+
+//         if (!title) {
+//             return res.status(400).json({ message: "Title is required" });
+//         }
+
+//         const task = await Task.create({
+//             title,
+//             description,
+//             userId
+//         });
+
+//         return res.status(201).json(task);
+
+//     } catch (err: any) {
+//         return res.status(500).json({ error: err.message });
+//     }
+// };
 export const getTaskById = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).userId;

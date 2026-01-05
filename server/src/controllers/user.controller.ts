@@ -12,26 +12,23 @@ export const loginUser = async (req: Request, res: Response) => {
         if (!email || !password)
             return res.status(400).json({ message: 'Email and password required' });
 
-        // Вземаме user с password (select: false)
         const user = await User.findOne({ email }).select('+password');
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const match = await bcrypt.compare(password, user.password!);
         if (!match) return res.status(400).json({ message: 'Wrong password' });
 
-        // Създаваме token с повече информация
         const payload = {
-            id: user.id,      // вече идва от toJSON transform
+            id: user.id, 
             email: user.email,
             name: user.name,
             role: user.role
         };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', {
+        const token = jwt.sign(payload, process.env.JWT_SECRET || 'superSecretKey123', {
             expiresIn: '7d',
         });
 
-        // Можеш също да върнеш token + user info отделно, ако искаш
         res.status(200).json({ token, user: payload });
     } catch (err: any) {
         console.error(err);
