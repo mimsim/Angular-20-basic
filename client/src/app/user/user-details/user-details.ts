@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, resource, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MATERIAL_IMPORTS } from '../../shared/material';
-import { User } from '../user.model';
 import { UsersService } from '../users-service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 import { TasksService } from '../../tasks/tasks-service';
 import { Task } from '../../tasks/task.model';
 import { MatDialog } from '@angular/material/dialog';

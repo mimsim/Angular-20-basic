@@ -14,7 +14,7 @@
 <p>No tasks</p>
 } @else {
 <div class="flex-content">
-    @for (task of tasks(); track task.userId) {
+    @for (task of tasks(); track task._id) {
     <mat-card>
         <div class="row">
             <h2>{{ task.title }} </h2>

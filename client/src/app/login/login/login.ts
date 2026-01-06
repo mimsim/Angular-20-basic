@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MATERIAL_IMPORTS } from '../../shared/material';
-import { Auth } from '../../shared/services/auth';
 import { Router, RouterModule } from '@angular/router';
 import { UsersService } from '../../user/users-service';
 

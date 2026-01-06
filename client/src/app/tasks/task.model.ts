@@ -1,5 +1,6 @@
 export interface Task {
     id: string;
+    _id?: string;
     userId: string;
     title: string;
     summary?: string;
@@ -8,16 +9,7 @@ export interface Task {
     completed?: boolean;
 }
 
-export interface NewTaskData {
-    // title: string;
-    // summary: string;
-    // date: string;
+export interface NewTaskData {    
     title: string | null;
-    body: string | null;
-    // createdAt: string;
-    // userId: string | null;
-
-    // start?: Date | null;
-    // end?: Date | null;
-
+    body: string | null;  
 }

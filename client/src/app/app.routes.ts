@@ -14,29 +14,14 @@ export const routes: Routes = [
     { path: 'register', component: Register },
     {
         path: '',
-        component: Dashboard, // layout
+        component: Dashboard,
         canActivate: [authGuard],
-        // children: [
-        //     { path: 'users', component: Users }, // десният панел
-        //     { path: '', redirectTo: 'users', pathMatch: 'full' }
-        // ]
+        children: [
+            { path: 'users/:id', component: UserDetails },
+            { path: '', redirectTo: 'users', pathMatch: 'full' }
+        ]
     },
-    { path: 'users', component: Users, canActivate: [authGuard] },
-    // {
-    //     path: '', 
-    //     component: NoTask,
-    //     pathMatch: 'full',
-    // },        
-    {
-        path: 'users/:id',
-        component: UserDetails
-        
-    },
-    // { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
-    // { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
+    { path: '', component: NoTask, pathMatch: 'full' },
     { path: 'notfound', component: NotFound },
-    {
-        path: '**',
-        component: NotFound,
-    },
+    { path: '**', redirectTo: 'notfound' }
 ];
