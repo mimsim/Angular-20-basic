@@ -16,6 +16,8 @@ export class UsersService {
   loading = signal(false);
   error = signal<string | null>(null);
   url = 'http://localhost:3000/api/'
+  loggedIn = false;
+  
   loadUsers() {
     if (this._users().length > 0) return;
 
@@ -50,25 +52,14 @@ export class UsersService {
   register(user: any) {   
     return this.http.post<User>(`${this.url}register`, user);
   }
+  
   login(user: any) {
-    return this.http.post(`${this.url}login`, user)
-    // return  this.http.post<{ token: string }>('http://localhost:3000/api/login', user)
-      // .subscribe({
-      //   next: (res) => {
-      //     console.log('res', res)
-      //     // localStorage.setItem('token', res.token);
-      //     // this.router.navigate(['/']);
-      //   },
-      //   error: (err) => console.error('Login error:', err)
-      // });
+    return this.http.post(`${this.url}login`, user)    
   }
-  // login(user: any) {
-  //   console.log('user', user)
-  //   return this.http.post(`${this.url}login`, user, {
-  //     headers: { 'Content-Type': 'application/json' }
-  //   });
-  // }
-
+ 
+  isLoggedIn(): boolean {
+    return this.loggedIn;
+  }
   getUsers() {
     return this.http.get<User[]>(this.url + 'users').subscribe({
       next: users => {

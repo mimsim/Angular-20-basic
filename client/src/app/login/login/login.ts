@@ -48,7 +48,7 @@ export class Login {
     }
   }
 
-  login() {
+  loginFormSubmit() {
     console.log('Sending login:', this.loginForm.value);
     this.userService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
@@ -56,6 +56,7 @@ export class Login {
         console.log('user:', res.user);
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
+        this.userService.loggedIn = true;
         this.router.navigate(['/']);
       },
       error: (err: any) => console.error('Login error:', err),

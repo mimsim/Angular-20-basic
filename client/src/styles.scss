@@ -12,3 +12,18 @@
     display: flex;
     flex-direction: column;
 }
+main {
+    display: flex;
+    gap: 15px
+}
+
+aside {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.right {
+    width: 65%;
+}

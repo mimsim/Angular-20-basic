@@ -6,42 +6,32 @@ import { NotFound } from './not-found/not-found';
 import { UserDetails } from './user/user-details/user-details';
 import { Login } from './login/login/login';
 import { Register } from './login/register/register';
+import { authGuard } from './auth-guard';
+import { Dashboard } from './dashboard/dashboard';
 
 export const routes: Routes = [
+    { path: 'login', component: Login },
+    { path: 'register', component: Register },
     {
-        path: '', // <your-domain>/
-        component: NoTask,
-        // component: Users,   
-        // redirectTo: '/users/u1',
-        pathMatch: 'full',
-        // title: 'No task selected',
+        path: '',
+        component: Dashboard, // layout
+        canActivate: [authGuard],
+        // children: [
+        //     { path: 'users', component: Users }, // десният панел
+        //     { path: '', redirectTo: 'users', pathMatch: 'full' }
+        // ]
     },
-    {
-        path: 'users', 
-        component: Users,      
-    },    
+    { path: 'users', component: Users, canActivate: [authGuard] },
+    // {
+    //     path: '', 
+    //     component: NoTask,
+    //     pathMatch: 'full',
+    // },        
     {
         path: 'users/:id',
         component: UserDetails
-        // loadComponent: () =>
-        //     import('./user/user-details/user-details')
-        //         .then(m => m.UserDetails),
-        // path: 'users/:userId', // <your-domain>/users/<uid>
-        // component: UserTasks,
-        // component: UserDetails
-        // children: userRoutes,
-        // canMatch: [dummyCanMatch],
-        // data: {
-        //     message: 'Hello!',
-        // },
-        // resolve: {
-        //     userName: resolveUserName,
-        // },
-        // title: resolveTitle,
+        
     },
-    { path: 'login', component: Login },
-    { path: 'register', component: Register },
-
     // { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
     // { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
     { path: 'notfound', component: NotFound },
