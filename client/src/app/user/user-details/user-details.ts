@@ -52,6 +52,7 @@ export class UserDetails {
   });
 
   constructor() {
+
     this.route.paramMap.subscribe(params => {
       this.userId.set(params.get('id') ?? undefined);
     });
