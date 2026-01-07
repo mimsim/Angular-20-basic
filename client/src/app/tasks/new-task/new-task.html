@@ -1,14 +1,25 @@
 <div class="form-content">
     <form [formGroup]="addTask" (ngSubmit)="submitTask()">
+                <mat-slide-toggle formControlName="completed">completed</mat-slide-toggle>
         <mat-form-field>
-            <mat-label>Input</mat-label>
+            <mat-label>Title</mat-label>
             <input matInput formControlName="title">
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Textarea</mat-label>
-            <textarea matInput formControlName="body"></textarea>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
+
+        <div class="row">
+        <mat-form-field class="example-full-width">
+            <mat-label>Due date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button matButton="elevated" type="button" (click)="picker.open()">Open</button>
+        </div>
         <button matButton="outlined" type="submit">Send</button>
     </form>
 </div>

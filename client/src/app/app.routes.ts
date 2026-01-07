@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { Users } from './user/users/users';
 import { NoTask } from './tasks/no-task/no-task';
-import { UserTasks } from './user/user-tasks/user-tasks';
 import { NotFound } from './not-found/not-found';
 import { UserDetails } from './user/user-details/user-details';
 import { Login } from './login/login/login';
 import { Register } from './login/register/register';
 import { authGuard } from './auth-guard';
 import { Dashboard } from './dashboard/dashboard';
+import { TaskDetails } from './tasks/task-details/task-details';
 
 export const routes: Routes = [
     { path: 'login', component: Login },
@@ -18,6 +17,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: 'users/:id', component: UserDetails },
+            { path: 'task/:id', component: TaskDetails },
             { path: '', redirectTo: 'users', pathMatch: 'full' }
         ]
     },

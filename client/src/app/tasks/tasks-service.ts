@@ -19,22 +19,15 @@ export class TasksService {
     return this.http.post<User>(`${this.url}task`, taskData);
   }
   
-  saveTasks() { 
-
-  }
-  removeTask(id: string) { 
-    // this.tasks.update((prevTasks) =>
-    //   prevTasks.filter((task)=> task != id)
-    // )
-  }
-  deleteTask(userId: any, taskId: any) {
-    return this.http.delete(`${this.url}task/${taskId}`);
-  }
-  getAllTasks() {
+  deleteTask(taskId: any) {
     const token = localStorage.getItem('token') ?? '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Task[]>(`${this.url}tasks`, { headers });
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); 
+    return this.http.delete(`${this.url}task/${taskId}`, { headers });
+  }
+  getAllTasks(userId: any) {
+    const token = localStorage.getItem('token') ?? '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);   
+    return this.http.get<Task[]>(`${this.url}tasks?userId=${userId}`,  {headers});
   }
 
   sendTaskByUser(payload: NewTaskData) {
@@ -45,6 +38,10 @@ export class TasksService {
 
     return this.http.post(`${this.url}task`, payload, { headers });
   }
-
+  getTaskById(id: string) {
+    const token = localStorage.getItem('token') ?? '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); 
+    return this.http.get(`${this.url}task/${id}`, { headers });
+  }
 
 }

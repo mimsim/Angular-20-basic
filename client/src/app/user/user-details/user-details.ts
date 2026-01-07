@@ -3,8 +3,6 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MATERIAL_IMPORTS } from '../../shared/material';
 import { UsersService } from '../users-service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { TasksService } from '../../tasks/tasks-service';
 import { Task } from '../../tasks/task.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,28 +25,40 @@ export class UserDetails {
   private tasksService = inject(TasksService);
   readonly dialog = inject(MatDialog);
 
-  tasks = signal<Task[]>([]);
   selectedUser = this.usersService.selectedUser;
 
-  userId = toSignal(
-    this.route.paramMap.pipe(
-      map(params => params.get('id') ?? undefined)
-    )
-  );
+  // Сигнал за userId
+  userId = signal<string | undefined>(this.route.snapshot.paramMap.get('id') ?? undefined);
 
+  // Сигнал с всички задачи
+  allTasks = signal<Task[]>([]);
+
+  // Computed tasks за текущия user
+  tasks = computed(() => {
+    const id = this.userId();
+    if (!id) return [];
+    return this.allTasks().filter(t => t.userId?.toString() === id.toString());
+  });
+
+  // Computed user
   user = computed(() => {
-    const fromState = this.selectedUser();
-    if (fromState) return fromState;
-
     const id = this.userId();
     if (!id) return undefined;
+
+    const fromState = this.selectedUser();
+    if (fromState?.id === id) return fromState;
+
     return this.usersService.users().find(u => u.id === id);
   });
 
   constructor() {
+    this.route.paramMap.subscribe(params => {
+      this.userId.set(params.get('id') ?? undefined);
+    });
+
     effect(() => {
       const id = this.userId();
-      if (id) this.loadTasks(id);
+      if (id) this.loadTasks();
     });
   }
 
@@ -59,33 +69,33 @@ export class UserDetails {
 
   openDialog() {
     const dialogRef = this.dialog.open(NewTask, {
+      width: '500px',
       data: { userId: this.userId() }
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      const id = this.userId();
-      if (id) this.loadTasks(id);
+      this.loadTasks();
     });
   }
 
   deleteTask(taskId: any) {
-    const id = this.userId();
-    if (!id) return;
-
-    this.tasksService.deleteTask(id, taskId).subscribe(() => {
-      this.loadTasks(id);
+     this.tasksService.deleteTask(taskId).subscribe(() => {  
+      this.loadTasks();
     });
   }
 
-  loadTasks(userId: string) {
-    this.tasksService.getAllTasks().subscribe({
+  loadTasks() {
+    const id = this.userId();
+    if (!id) return;
+
+    this.tasksService.getAllTasks(id).subscribe({
       next: tasks => {
-        const userTasks = tasks.filter(t => t.userId === userId);
-        this.tasks.set(userTasks);
+        this.allTasks.set(tasks); 
       },
       error: err => console.error(err)
     });
   }
+  trackByTaskId(index: number, task: Task) {
+    return task.id;
+  }
 }
-
-

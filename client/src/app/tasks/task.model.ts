@@ -11,5 +11,7 @@ export interface Task {
 
 export interface NewTaskData {    
     title: string | null;
-    body: string | null;  
+    description: string | null;  
+    completed: boolean;
+    userId: string;
 }

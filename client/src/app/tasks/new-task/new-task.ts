@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MATERIAL_IMPORTS } from '../../shared/material';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasksService } from '../tasks-service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -14,6 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   providers: [provideNativeDateAdapter()],
   templateUrl: './new-task.html',
   styleUrl: './new-task.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewTask {
   private formBuilder = inject(FormBuilder);
@@ -22,13 +23,14 @@ export class NewTask {
 
   userId: any;
   addTask = this.formBuilder.group({
-    title: new FormControl(''),
-    body: new FormControl('')
+    title: ['', { validators: Validators.required }],
+    description: ['', { validators: Validators.required }],
+    picker: ['', { validators: Validators.required }],   // ← добави го
+    completed: [false, { validators: Validators.required }],
   })
   decodedUser: any;
 
   constructor() {
-    console.log(this.data)
     const token = localStorage.getItem('token');
     if (token) {
       this.decodedUser = token;      
@@ -38,10 +40,11 @@ export class NewTask {
   submitTask() {
     const payload = {
       ...this.addTask.getRawValue(),
+      completed: !!this.addTask.value.completed,
       userId: this.data.userId
     };
 
-    console.log('Payload for backend:', payload);  // виж какво се логва
+    console.log('Payload for backend:', payload);
 
     this.taskService.sendTaskByUser(payload).subscribe({
       next: (res) => {

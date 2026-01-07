@@ -3,13 +3,11 @@
 
 <h2>{{ user()!.name }}</h2>
 <p>Email: {{ user()!.email }}</p>
-} @else {
-<p>Loading user details...</p>
-}
-<div>
-    <button matButton="outlined" matButton (click)="openDialog()">Add new task</button>
 
+<div>
+    <button mat-button (click)="openDialog()">Add new task</button>
 </div>
+
 @if (tasks().length === 0) {
 <p>No tasks</p>
 } @else {
@@ -17,15 +15,19 @@
     @for (task of tasks(); track task._id) {
     <mat-card>
         <div class="row">
-            <h2>{{ task.title }} </h2>
+            <h2>{{ task.title }}- {{task._id}}</h2>
             <div class="right-button">
-                <button matButton="outlined" (click)="deleteTask(task.id)">Delete this task</button>
+                <button mat-button (click)="deleteTask(task._id)">Delete this task</button>
+                <button mat-button [routerLink]="['/task', task._id]">Task details</button>
             </div>
         </div>
         <div>
-            <div [ngClass]="task.completed ? 'red': 'green'">{{task.completed}}</div>
+            <div [ngClass]="task.completed ? 'red' : 'green'">{{ task.completed }}</div>
         </div>
     </mat-card>
     }
 </div>
+}
+} @else {
+<p>Loading user details...</p>
 }

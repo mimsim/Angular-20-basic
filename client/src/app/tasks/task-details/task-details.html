@@ -1,6 +1,10 @@
 <mat-card>
+    <button mat-button (click)="back()">⬅ Back</button>
     <h2>{{ task().title}}</h2>
-    <time>{{ task().dueDate | date : "fullDate" }}</time>
-    <p>{{ task().summary }}</p>
-    <button matButton="outlined" (click)="onComplete()">Complete</button>
+    <time>{{ task().picker | date : "fullDate" }}</time>
+    <p>{{ task().description }}</p>
+    <p [ngClass]="task().completed ? 'red' : 'green'">{{ task().completed }}</p>
+    <p>{{ task().createdAt | date : "fullDate" }}</p>
+    <button matButton="outlined" >Complete</button>
 </mat-card>
+
