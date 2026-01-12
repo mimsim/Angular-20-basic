@@ -5,6 +5,8 @@ import { routes } from './app.routes';
 import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './shared/auth-interceptor';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -22,5 +24,8 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig },
     provideAnimations(),
     provideToastr(),
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    )
   ]
 };

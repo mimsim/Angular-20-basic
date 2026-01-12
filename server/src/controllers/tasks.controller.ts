@@ -60,7 +60,8 @@ export const deleteTaskById = async (req: Request, res: Response) => {
         const userId = (req as any).userId;
         const { id } = req.params;
 
-        const task = await Task.findOneAndDelete({ _id: id, userId });
+        // const task = await Task.findOneAndDelete({ _id: id, userId });
+        const task = await Task.findOneAndDelete({ _id: id });
 
         if (!task) return res.status(404).json({ message: "Task not found" });
 
