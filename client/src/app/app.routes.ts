@@ -10,7 +10,6 @@ import { TaskDetails } from './tasks/task-details/task-details';
 import { Error } from './error/error'
 
 export const routes: Routes = [
-    { path: '', component: NoTask, pathMatch: 'full' },
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     {
@@ -23,6 +22,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'users', pathMatch: 'full' }
         ]
     },   
+    { path: '', component: NoTask, pathMatch: 'full' },
     { path: 'notfound', component: NotFound },
     { path: 'error', component: Error },
     { path: '**', redirectTo: 'notfound' }

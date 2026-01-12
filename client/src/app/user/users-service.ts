@@ -77,15 +77,17 @@ export class UsersService {
   addUser(user: User): Observable<User> {
     return this.http.post<User>(this.url + 'user', user);
   }
-
-  getUserById(user: User) {
-    console.log('user', user)
-    this.http.get<User>(`${this.url}/users/user/${user}`)
-      .subscribe({
-        next: (user) => console.log(user),
-        error: (err) => console.error(err)
-      });
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.url}users/${id}`);
   }
+  // getUserById(user: User) {
+  //   console.log('user', user)
+  //   this.http.get<User>(`${this.url}/users/user/${user}`)
+  //     .subscribe({
+  //       next: (user) => console.log(user),
+  //       error: (err) => console.error(err)
+  //     });
+  // }
 
   editUser(user: User): Observable<string> {
     return this.http.put(`/api/user/${user.id}`, user, { responseType: 'text' });

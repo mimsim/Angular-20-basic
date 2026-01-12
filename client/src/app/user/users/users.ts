@@ -29,9 +29,9 @@ export class Users {
     console.log('app-users', this.users)
   }
   onSelect(user: User) {
-    this.usersService.selectUser(user); // ✅ set signal
+    this.usersService.selectUser(user);
     console.log('app-users', user)
-    this.router.navigate(['/users', user.id]); // ✅ navigate
+    this.router.navigate(['/users', user.id]);
   }
  
 }
