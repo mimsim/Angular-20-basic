@@ -5,6 +5,6 @@
     <p>{{ task().description }}</p>
     <p [ngClass]="task().completed ? 'red' : 'green'">{{ task().completed }}</p>
     <p>{{ task().createdAt | date : "fullDate" }}</p>
-    <button matButton="outlined" >Complete</button>
+    <button matButton="outlined" (click)="complete(task()._id)">Complete</button>
 </mat-card>
 

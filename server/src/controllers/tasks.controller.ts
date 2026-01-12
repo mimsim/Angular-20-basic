@@ -73,11 +73,10 @@ export const deleteTaskById = async (req: Request, res: Response) => {
 
 export const updateTaskById = async (req: Request, res: Response) => {
     try {
-        const userId = (req as any).userId;
         const { id } = req.params;
 
         const updated = await Task.findOneAndUpdate(
-            { _id: id, userId },
+            { _id: id }, 
             req.body,
             { new: true }
         );

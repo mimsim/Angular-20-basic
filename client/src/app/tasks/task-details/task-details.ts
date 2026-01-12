@@ -39,4 +39,17 @@ export class TaskDetails {
       this.router.navigate(['/users/' + this.id]);
     });
   }
+  complete(taskId: any) {
+    const taskValue = this.task();
+    if (!taskValue) return;
+
+    const payload = {
+      ...taskValue,
+      completed: !taskValue.completed
+    };
+
+    this.taskService.updateTask(taskId, payload).subscribe(() => {
+      this.task.set(payload);
+    });
+  }
 }

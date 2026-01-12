@@ -22,19 +22,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-
-      // --- ПРЕНАСОЧВАНИЯ ---
       if (error.status >= 400 && error.status < 500) {
-        router.navigate(['/client-error']);   // <-- маршрут за 4xx
+        router.navigate(['/notfound']); 
       }
-
       if (error.status === 500) {
-        router.navigate(['/server-error']);   // <-- маршрут за 500
-      }
-
-      // Ако искаш за конкретен код:
-      if (error.status === 506) {
-        router.navigate(['/special-error']);  // <-- тук смени по желание
+        router.navigate(['/error']);
       }
 
       return throwError(() => error);

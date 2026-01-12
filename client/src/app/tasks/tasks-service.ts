@@ -20,28 +20,21 @@ export class TasksService {
   }
   
   deleteTask(taskId: any) {
-    const token = localStorage.getItem('token') ?? '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); 
-    return this.http.delete(`${this.url}task/${taskId}`, { headers });
+    return this.http.delete(`${this.url}task/${taskId}`);
   }
-  getAllTasks(userId: any) {
-    const token = localStorage.getItem('token') ?? '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);   
-    return this.http.get<Task[]>(`${this.url}tasks?userId=${userId}`,  {headers});
+  getAllTasks(userId: any) {  
+    return this.http.get<Task[]>(`${this.url}tasks?userId=${userId}`);
   }
 
   sendTaskByUser(payload: NewTaskData) {
-    const token = localStorage.getItem('token');
-
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`);
-
-    return this.http.post(`${this.url}task`, payload, { headers });
+       return this.http.post(`${this.url}task`, payload);
   }
+
   getTaskById(id: string) {
-    const token = localStorage.getItem('token') ?? '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); 
-    return this.http.get(`${this.url}task/${id}`, { headers });
+    return this.http.get(`${this.url}task/${id}`);
   }
 
+  updateTask(id: string, data: any) {
+    return this.http.put(`${this.url}task/${id}`, data);
+  }
 }
