@@ -1,28 +1,35 @@
 @if (user()) {
+
+<!-- Back button -->
 <button mat-button (click)="back()">⬅ Back</button>
 
+<!-- User details -->
 <h2>{{ user()!.name }}</h2>
 <p>Email: {{ user()!.email }}</p>
 
+<!-- Add new task -->
 <div>
     <button mat-button (click)="openDialog()">Add new task</button>
 </div>
 
+<!-- Tasks -->
 @if (tasks().length === 0) {
 <p>No tasks</p>
 } @else {
 <div class="flex-content">
-    @for (task of tasks(); track task._id) {
+    @for (task of tasks(); track task.id) {
     <mat-card>
         <div class="row">
-            <h2>{{ task.title }}- {{task._id}}</h2>
+            <h2>{{ task.title }} - {{ task.id }}</h2>
             <div class="right-button">
-                <button mat-button (click)="deleteTask(task._id)">Delete this task</button>
-                <button mat-button [routerLink]="['/task', task._id]">Task details</button>
+                <button mat-button (click)="deleteTask(task.id)">Delete this task</button>
+                <button mat-button [routerLink]="['/task', task.id]">Task details</button>
             </div>
         </div>
         <div>
-            <div [ngClass]="task.completed ? 'red' : 'green'">{{ task.completed }}</div>
+            <div [ngClass]="task.completed ? 'red' : 'green'">
+                {{ task.completed }}
+            </div>
         </div>
     </mat-card>
     }

@@ -33,11 +33,7 @@ export class TaskDetails {
     }
   }
   back() {
-    // this.usersService.clearSelection();
-    // this.router.navigate(['/users/' + this.id]);
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users/' + this.id]);
-    });
+    this.router.navigate(['/users/' + this.id]);   
   }
   complete(taskId: any) {
     const taskValue = this.task();
