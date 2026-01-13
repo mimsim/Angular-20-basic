@@ -17,13 +17,13 @@
 <p>No tasks</p>
 } @else {
 <div class="flex-content">
-    @for (task of tasks(); track task.id) {
+    @for (task of tasks(); track task._id) {
     <mat-card>
         <div class="row">
-            <h2>{{ task.title }} - {{ task.id }}</h2>
+            <h2>{{ task.title }} - {{ task._id }}</h2>
             <div class="right-button">
-                <button mat-button (click)="deleteTask(task.id)">Delete this task</button>
-                <button mat-button [routerLink]="['/task', task.id]">Task details</button>
+                <button mat-button (click)="deleteTask(task._id)">Delete this task</button>
+                <button mat-button [routerLink]="['/task', task._id]">Task details</button>
             </div>
         </div>
         <div>
