@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar color="primary" class="app-header">
     <span>Angular 21 Basic</span>
-<button *ngIf="userService.isLoggedIn()" mat-button color="warn" (click)="logout()">Logout</button>
-    </mat-toolbar>
+    <div><button *ngIf="userService.isLoggedIn()" mat-button color="warn" (click)="logout()" class="header-btn">Logout</button></div>
+</mat-toolbar>
