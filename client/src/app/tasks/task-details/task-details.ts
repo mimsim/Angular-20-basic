@@ -5,6 +5,7 @@ import { Task } from '../task.model';
 import { TasksService } from '../tasks-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../user/users-service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-task-details',
@@ -21,6 +22,7 @@ export class TaskDetails {
   private taskService = inject(TasksService);
   private usersService = inject(UsersService);
   private router = inject(Router);
+  location = inject(Location)
   // signal за task данните
   task = signal<any>(null);
   id: any;
@@ -33,7 +35,8 @@ export class TaskDetails {
     }
   }
   back() {
-    this.router.navigate(['/users/' + this.id]);   
+    // this.router.navigate(['/users/' + this.id]);   
+    this.location.back();
   }
   complete(taskId: any) {
     const taskValue = this.task();
